@@ -10,6 +10,9 @@ Source: Stallings Ch 3, Review Question 3.1, p. 172
 Source: Stallings Ch 3, Review Question 3.2, p. 172
 
 ### Q3. For the processing model of Figure 3.6, briefly define each state.
+
+![Fig 3.6 Five-state process model (slide 19)](../images/topic-03/slide-19.png)
+
 Source: Stallings Ch 3, Review Question 3.3, p. 172
 
 ### Q4. What does it mean to preempt a process?
@@ -19,6 +22,9 @@ Source: Stallings Ch 3, Review Question 3.4, p. 172
 Source: Stallings Ch 3, Review Question 3.5, p. 172
 
 ### Q6. Why does Figure 3.9b have two blocked states?
+
+![Fig 3.9b Two suspend states (slide 25)](../images/topic-03/slide-25.png)
+
 Source: Stallings Ch 3, Review Question 3.6, p. 172
 
 ### Q7. List four characteristics of a suspended process.
@@ -67,17 +73,31 @@ Source: Stallings Ch 3, Problem 3.2, pp. 172-173
 ### Q16. Figure 3.9b contains seven states. In principle, one could draw a transition between any two states, for a total of 42 different transitions.
 a. List all of the possible transitions and give an example of what could cause each transition.
 b. List all of the impossible transitions and explain why.
+
+![Fig 3.9b Two suspend states (slide 25)](../images/topic-03/slide-25.png)
+
 Source: Stallings Ch 3, Problem 3.3, p. 173 (refers to Figure 3.9b, slide 25)
 
 ### Q17. For the seven-state process model of Figure 3.9b, draw a queueing diagram similar to that of Figure 3.8b.
+
+![Fig 3.9b Two suspend states (slide 25)](../images/topic-03/slide-25.png)
+
+![Fig 3.8b Multiple blocked queues (slide 22)](../images/topic-03/slide-22.png)
+
 Source: Stallings Ch 3, Problem 3.4, p. 173 (Figure 3.9b on slide 25; Figure 3.8b on slide 22)
 
 ### Q18. Consider the state transition diagram of Figure 3.9b. Suppose it is time for the OS to dispatch a process and there are processes in both the Ready state and the Ready/Suspend state, and at least one process in the Ready/Suspend state has higher scheduling priority than any of the processes in the Ready state. Two extreme policies are as follows: (1) Always dispatch from a process in the Ready state, to minimize swapping, and (2) always give preference to the highest-priority process, even though that may mean swapping when swapping is not necessary. Suggest an intermediate policy that tries to balance the concerns of priority and performance.
+
+![Fig 3.9b Two suspend states (slide 25)](../images/topic-03/slide-25.png)
+
 Source: Stallings Ch 3, Problem 3.5, p. 173 (refers to Figure 3.9b, slide 25)
 
 ### Q19. Figure 3.8b suggests that a process can only be in one event queue at a time.
 a. Is it possible that you would want to allow a process to wait on more than one event at the same time? Provide an example.
 b. In that case, how would you modify the queueing structure of the figure to support this new feature?
+
+![Fig 3.8b Multiple blocked queues (slide 22)](../images/topic-03/slide-22.png)
+
 Source: Stallings Ch 3, Problem 3.9, p. 175 (Figure 3.8b on slide 22)
 
 ### Q20. What is the purpose of the system call fork() in the UNIX operating system? Write a C routine to create a child process using the fork() system call. Incorporate an error check in your routine in case the creation of the child process fails.

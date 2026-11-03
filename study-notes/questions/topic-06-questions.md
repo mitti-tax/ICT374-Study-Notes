@@ -8,6 +8,9 @@ The slides contain worked examples but no explicit exercise questions.
 ## Textbook
 ### Q1. In Figure 10.2, remove the for (;;) statement. What happens and why?
 Figure 10.2 (APUE p. 324) catches SIGUSR1 and SIGUSR2 with the handler `sig_usr`, then runs `for ( ; ; ) pause();` in main.
+
+![APUE Fig 10.2 (p. 324)](../images/textbook/apue-p324.png)
+
 Source: APUE Ch 10, Exercise 10.1, p. 381
 
 ### Q2. Write a program that calls fwrite with a large buffer (about one gigabyte). Before calling fwrite, call alarm to schedule a signal in 1 second. In your signal handler, print that the signal was caught and return. Does the call to fwrite complete? What's happening?

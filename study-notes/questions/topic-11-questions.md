@@ -178,6 +178,8 @@ Source: Stallings Ch 6, Review Question 6.7, p. 332
 ### Q24. Show that the four conditions of deadlock apply to Figure 6.1a.
 Figure 6.1a is the "deadlock possible" crossing diagram (slide 17).
 
+![Fig 6.1 Illustration of deadlock (slide 17)](../images/topic-11/slide-17.png)
+
 Source: Stallings Ch 6, Problem 6.1, p. 332
 
 ### Q25. Show how each of the techniques of prevention, avoidance, and detection can be applied to Figure 6.1.
@@ -228,6 +230,10 @@ void P0()             void P1()             void P2()
 
 a. Using a resource allocation graph (see Figures 6.5 and 6.6), show the possibility of a deadlock in this implementation.
 b. Modify the order of some of the get requests to prevent the possibility of any deadlock. You cannot move requests across procedures, only change the order inside each procedure. Use a resource allocation graph to justify your answer.
+
+![Fig 6.5c,d Resource allocation graphs (slide 24)](../images/topic-11/slide-24.png)
+
+![Fig 6.6 Resource allocation graph for Fig 6.1b (slide 27)](../images/topic-11/slide-27.png)
 
 Source: Stallings Ch 6, Problem 6.6, p. 333
 

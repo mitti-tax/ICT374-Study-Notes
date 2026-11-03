@@ -22,6 +22,9 @@ Source: APUE Ch 16, Exercise 16.4, p. 628
 
 ### Q6. In the program in Figure 16.18, the server waits for the child to execute the uptime command and exit before accepting the next connect request. Redesign the server so that the time to service one request doesn't delay the processing of incoming connect requests.
 Depends on Figure 16.18 (APUE p. 619).
+
+![APUE Fig 16.18 (p. 619)](../images/textbook/apue-p619.png)
+
 Source: APUE Ch 16, Exercise 16.5, p. 628
 
 ## Sample exam

@@ -9,9 +9,15 @@ The lecture slides contain no practice questions.
 Source: APUE Ch 7, Exercise 7.1, p. 226
 
 ### Q2. In Figure 8.3, we said that replacing the call to _exit with a call to exit might cause the standard output to be closed and printf to return −1. Modify the program to check whether your implementation behaves this way. If it does not, how can you simulate this behavior?
+
+![APUE Fig 8.3 (p. 235)](../images/textbook/apue-p235.png)
+
 Source: APUE Ch 8, Exercise 8.1, p. 283 (refers to Figure 8.3)
 
 ### Q3. Recall the typical arrangement of memory in Figure 7.6. Because the stack frames corresponding to each function call are usually stored in the stack, and because after a vfork the child runs in the address space of the parent, what happens if the call to vfork is from a function other than main and the child does a return from this function after the vfork? Write a test program to verify this, and draw a picture of what's happening.
+
+![APUE Fig 7.6 (p. 206)](../images/textbook/apue-p206.png)
+
 Source: APUE Ch 8, Exercise 8.2, p. 283 (refers to Figure 7.6)
 
 ### Q4. When we execute the program in Figure 8.13 one time, as in
@@ -30,6 +36,8 @@ the output is correct. But if we execute the program multiple times, one right a
 
 the output is not correct. What's happening? How can we correct this? Can this problem happen if we let the child write its output first?
 
+![APUE Fig 8.13 (p. 248)](../images/textbook/apue-p248.png)
+
 Source: APUE Ch 8, Exercise 8.4, p. 283 (refers to Figure 8.13)
 
 ### Q5. Write a program that creates a zombie, and then call system to execute the ps(1) command to verify that the process is a zombie.
@@ -42,6 +50,9 @@ Source: APUE Ch 9, Exercise 9.2, p. 312
 Source: APUE Ch 13, Exercise 13.2, p. 480
 
 ### Q8. Write a program that calls the daemonize function in Figure 13.1. After calling this function, call getlogin (Section 8.15) to see whether the process has a login name now that it has become a daemon. Print the results to a file.
+
+![APUE Fig 13.1 (p. 468)](../images/textbook/apue-p468.png)
+
 Source: APUE Ch 13, Exercise 13.4, p. 480 (refers to Figure 13.1)
 
 ## Sample exam

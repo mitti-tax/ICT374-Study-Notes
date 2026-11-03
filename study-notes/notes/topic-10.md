@@ -17,6 +17,12 @@ Assign processes to be executed by the processor(s), trading off response time, 
 - Fig 9.1 (slide 4) shows these as transitions in the process state diagram. Fig 9.2 (slide 5) nests them: short-term covers Running/Ready/Blocked, medium-term adds the two Suspend states, long-term adds New and Exit.
 - Fig 9.3 (slide 12) is the queuing diagram: batch jobs and interactive users enter via long-term scheduling, the Ready queue feeds the processor (short-term), time-out returns a process to Ready, event wait sends it to the Blocked queue, and medium-term scheduling moves processes among Ready/Suspend and Blocked/Suspend queues.
 
+![Fig 9.1 Scheduling and process state transitions (slide 4)](../images/topic-10/slide-04.png)
+
+![Fig 9.2 Levels of scheduling (slide 5)](../images/topic-10/slide-05.png)
+
+![Fig 9.3 Queuing diagram for scheduling (slide 12)](../images/topic-10/slide-12.png)
+
 ### Long-term scheduling (slide 6)
 Decides which programs are admitted to the system. It controls the degree of multiprogramming: more processes means each gets a smaller share of processor time.
 
@@ -36,6 +42,8 @@ Also called the **dispatcher**. It runs most frequently, and is invoked when an 
 - The scheduler always picks a ready process of higher priority over a lower one.
 - Fig 9.4: multiple ready queues RQ0..RQn, one per priority level; plus a Blocked queue. Processes are dispatched from the highest non-empty queue.
 - Lower-priority processes may **starve**. Fix: let priority change with age or execution history.
+
+![Fig 9.4 Priority queuing (slide 14)](../images/topic-10/slide-14.png)
 
 ## Decision mode (slide 15)
 - **Nonpreemptive**: a running process continues until it terminates or blocks for I/O.
@@ -58,16 +66,26 @@ Notation: w = time spent waiting, e = time executed so far, s = total service ti
 ### First-Come-First-Served (FCFS) (slides 17-18)
 Each process joins the Ready queue; when the current one stops, the oldest is chosen. Nonpreemptive. A short process may wait a very long time behind a long one. Favors CPU-bound processes: I/O-bound processes wait for the CPU-bound one to finish. Selection function max[w].
 
+![FCFS schedule for the example (slide 17)](../images/topic-10/slide-17.png)
+
 ### Round-Robin (slides 19-21)
 - Preemption based on a clock: each process gets a fixed time quantum. A periodic clock interrupt puts the running process at the back of the Ready queue and the next ready job is selected. This is **time slicing**.
 - If the quantum is too small, throughput suffers (overhead of switching). Gives fair treatment and good response for short processes.
 - **Virtual Round-Robin** (Fig 9.7): processes that finish I/O go to an **Auxiliary queue** that has preference over the Ready queue (this removes round-robin's bias against I/O-bound processes).
 
+![Round-robin (q = 1) schedule for the example (slide 19)](../images/topic-10/slide-19.png)
+
+![Fig 9.7 Queuing diagram for virtual round-robin (slide 21)](../images/topic-10/slide-21.png)
+
 ### Shortest Process Next (SPN) (slide 22)
 Nonpreemptive. Pick the process with the shortest expected processing time (min[s]). Short processes jump ahead. Needs an estimate of processing time; longer processes may starve.
 
+![SPN schedule for the example (slide 22)](../images/topic-10/slide-22.png)
+
 ### Shortest Remaining Time (SRT) (slide 23)
 Preemptive version of SPN: pick min[s - e], and may preempt when a new process arrives. Needs a time estimate.
+
+![SRT schedule for the example (slide 23)](../images/topic-10/slide-23.png)
 
 ### Highest Response Ratio Next (HRRN) (slide 24)
 Nonpreemptive. Choose the process with the greatest ratio:
@@ -76,8 +94,12 @@ ratio = (time spent waiting + expected service time) / expected service time = (
 
 Short jobs are favored, but a waiting process's ratio grows, so no starvation.
 
+![HRRN schedule for the example (slide 24)](../images/topic-10/slide-24.png)
+
 ### Multilevel Feedback (slides 25-26)
 Penalizes jobs that have been running longer, used when remaining time is unknown. Fig 9.10: ready queues RQ0..RQn; a new process enters RQ0, and each time it is preempted it drops to the next lower queue (the last queue cycles round-robin). Preemptive at the time quantum; may favor I/O-bound processes; starvation possible.
+
+![Fig 9.10 Feedback scheduling (slide 25)](../images/topic-10/slide-25.png)
 
 ### Comparison (Table 9.3, slide 26)
 | Policy | Selection | Mode | Throughput | Response time | Overhead | Effect | Starvation |

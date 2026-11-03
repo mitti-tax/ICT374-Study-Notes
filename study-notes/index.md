@@ -13,3 +13,5 @@ See also [reading map](00-reading-map.md).
 - **Topic 09: Memory Management** - [summary](notes/topic-09.md) | [questions](questions/topic-09-questions.md) | Stallings Ch 7-8
 - **Topic 10: Processor Scheduling** - [summary](notes/topic-10.md) | [questions](questions/topic-10-questions.md) | Stallings Ch 9 (9.1-9.3)
 - **Topic 11: Concurrency and Parallelism** - [summary](notes/topic-11.md) | [questions](questions/topic-11-questions.md) | Stallings Ch 4-6 (parts), 1.8, 2.4/2.6
+
+Extras: [Unix cheat sheet (Topics 4-8)](cheatsheet-unix.md) · [Glossary](glossary.md)

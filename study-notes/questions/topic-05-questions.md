@@ -7,6 +7,9 @@
 Source: Slide 4
 
 ### Q2. In the diagram, there are two processes, P1 and P2, each having its own Per Process Table of Open Files, sharing two files: File A and File B. File A is shared via two different File Table entries while File B is shared via the same File Table entry. What are the consequences due to the differences in the way the files are shared? (Refers to the diagram on slide 7.)
+
+![File sharing between two processes (slide 7)](../images/topic-05/slide-07.png)
+
 Source: Slide 7
 
 ### Q3. Example: Copy file fd1 to file fd2
@@ -54,6 +57,8 @@ fd3 = open(path, oflags);
 ```
 Draw the resulting picture, similar to Figure 3.9. Which descriptors are affected by an fcntl on fd1 with a command of F_SETFD? Which descriptors are affected by an fcntl on fd1 with a command of F_SETFL?
 
+![APUE Fig 3.9 (p. 80)](../images/textbook/apue-p080.png)
+
 Source: APUE Ch 3, Exercise 3.3, p. 90 (Figure 3.9 is in Section 3.10)
 
 ### Q11. The following sequence of code has been observed in various programs:
@@ -79,6 +84,9 @@ Source: APUE Ch 3, Exercise 3.5, p. 90
 Source: APUE Ch 3, Exercise 3.6, p. 91
 
 ### Q14. Modify the program in Figure 4.3 to use stat instead of lstat. What changes if one of the command-line arguments is a symbolic link?
+
+![APUE Fig 4.3 (p. 97)](../images/textbook/apue-p097.png)
+
 Source: APUE Ch 4, Exercise 4.1, p. 141 (Figure 4.3 is the file-type program; the slide 34-35 program is adapted from it)
 
 ### Q15. What happens if the file mode creation mask is set to 777 (octal)? Verify the results using your shell's umask command.

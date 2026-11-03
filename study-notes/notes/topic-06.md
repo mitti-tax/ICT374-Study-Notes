@@ -57,6 +57,8 @@ Installs `handler` for `signo` and returns the previous handler. Easier with `ty
 - **Ignore**: `signal(sig, SIG_IGN)`. Example 7: ignoring SIGINT means CTRL-C does nothing, but CTRL-\\ (SIGQUIT) still stops the program. Example 8 ignores SIGINT for 20 seconds, then restores SIG_DFL.
 - **Catch**: the kernel keeps a per-process **signal table** (in kernel space) holding the handler address for each signal. On arrival the kernel stops the process, looks up the handler, calls it with the signal number as its int argument, and resumes the process when it returns. Special values: `SIG_ERR` (-1, error), `SIG_DFL` (0), `SIG_IGN` (1). Example 9: `signal(SIGINT, catch)` means CTRL-C or `kill -SIGINT pid` prints a message instead of terminating.
 
+![Per-process signal table (slide 13)](../images/topic-06/slide-13.png)
+
 ## 8. Alarm and pause (slides 15-16)
 - `wait(&status)`: suspend until a child terminates.
 - `sleep(n)`: suspend for n seconds.

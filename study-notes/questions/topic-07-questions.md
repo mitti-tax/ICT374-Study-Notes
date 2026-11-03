@@ -64,6 +64,8 @@ if (pid==0) { /* porcess B */
 ```
 (The slide diagram shows two pipes between A and B: AB, written at AB[1] and read at AB[0], and BA, written at BA[1] and read at BA[0].)
 
+![pipesync: pipes AB and BA between processes A and B (slide 8)](../images/topic-07/slide-08.png)
+
 Source: Slide 10 (program on Slides 8-9)
 
 ### Q2. Refer to the line labels in the pipesync.c program (Q1). Explain what would happen if Line L2: "close(AB[1])" is deleted.
@@ -112,6 +114,8 @@ void semSignal (s)
 ```
 Compare this set of definitions with that of Figure 5.6. Note one difference: With the preceding definition, a semaphore can never take on a negative value. Is there any difference in the effect of the two sets of definitions when used in programs? That is, could you substitute one set for the other without altering the meaning of the program?
 
+![Stallings Fig 5.6 (p. 246)](../images/textbook/stallings-p246.png)
+
 Source: Stallings Ch 5, Problem 5.15, p. 281 (refers to Figure 5.6)
 
 ### Q8. Show that message passing and semaphores have equivalent functionality by
@@ -133,6 +137,8 @@ Source: APUE Ch 15, Exercise 15.12, p. 588
 Source: APUE Ch 15, Exercise 15.13, p. 588
 
 ### Q12. Draw a timeline of the program in Figure 15.33 showing the value of the variable i in both the parent and child, the value of the long integer in the shared memory region, and the value returned by the update function. Assume that the child runs first after the fork.
+
+![APUE Fig 15.33 (p. 577)](../images/textbook/apue-p577.png)
 
 Source: APUE Ch 15, Exercise 15.14, p. 588 (refers to Figure 15.33, p. 577: parent/child IPC using memory-mapped /dev/zero)
 

@@ -42,9 +42,17 @@ In these cases, the 12-bit address identifies a particular external device. Show
 Assume that the next value retrieved from device 7 is 6 and that location 880 contains a value of 5.
 
 (Refers to Figure 1.3, p. 34, and Figure 1.4, p. 35.)
+
+![Stallings Fig 1.3 (p. 34)](../images/textbook/stallings-p034.png)
+
+![Stallings Fig 1.4 (p. 35)](../images/textbook/stallings-p035.png)
+
 Source: Stallings Ch 1, Problem 1.1, p. 59
 
 ### Q10. The program execution of Figure 1.4 is described in the text using six steps. Expand this description to show the use of the MAR and MBR.
+
+![Stallings Fig 1.4 (p. 35)](../images/textbook/stallings-p035.png)
+
 Source: Stallings Ch 1, Problem 1.2, p. 59
 
 ### Q11. Consider a hypothetical 64-bit microprocessor having 64-bit instructions composed of two fields. The first 4 bytes contain the opcode, and the remainder an immediate operand or an operand address.

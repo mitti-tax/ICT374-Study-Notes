@@ -16,11 +16,17 @@ A process is a running program. This topic covers what a process contains, how t
   - `wait`/`waitpid`: wait for a child to terminate and get its termination status.
   - `exit`: terminate the process with an exit status.
 
+![Process memory image (user address space) (slide 2)](../images/topic-04/slide-02.png)
+
+![Process tree rooted at init (slide 4)](../images/topic-04/slide-04.png)
+
 ## 2. The fork call (slides 5-7)
 - `pid_t pid = fork();` (`<unistd.h>`) duplicates the calling process. Immediately afterwards the child's text, data, heap, stack and environment equal the parent's, except for fork's return value.
 - Return value: `-1` error; `0` you are the child; `>0` you are the parent and the value is the child's PID.
 - Both processes then run concurrently. Which runs first is up to the kernel scheduler, so output order is unpredictable (slide 6: A prints `pid = 300`, B prints `pid = 0`, in either order).
 - Typical pattern (`spawn.c`): test `pid==0` / `pid>0` / else (error).
+
+![fork return values and before/after fork (slide 6)](../images/topic-04/slide-06.png)
 
 ## 3. The exec family (slides 8-11)
 - Six functions that all end up in the system call `execve`. The existing text, data, stack and heap are completely replaced; execution starts at the new program's `main`. No new process is created, so PID (and usually other attributes) stay the same.
@@ -58,11 +64,15 @@ Example `runls`: `fork`; the parent calls `wait` then prints "ls completed"; the
 - Access method 2 (POSIX.1): `extern char **environ;`, same structure.
 - `char *getenv(const char *name)` returns the value of a variable or NULL, e.g. `getenv("USER")`.
 
+![envp array and environment strings (slide 18)](../images/topic-04/slide-18.png)
+
 ## 8. Process groups and sessions (slides 20-21)
 - Besides parent/child, each process belongs to one **process group**, and each group belongs to one **session**.
 - A **session** is a collection of process groups, usually tied to one control terminal. Groups created in a terminal login (local, SSH, TELNET) share a session unless a process creates a new one.
 - A **process group** is a collection of processes; a process inherits its group (and session) from its parent unless it makes a new group or is placed in another. With job control, all processes of one job are in one group, e.g. `ls -lt | grep john | more`.
 - Slide 21 example: login on `ttya` runs `a.out &` and `ls -lt | grep john | more`; login on `ttyb` runs `bigstuff | grep xyz > foo &`, `myproc &`, `cat readme | grep apple`. This gives two sessions, one per terminal, with a process group per job.
+
+![Sessions and process groups on ttya and ttyb (slide 21)](../images/topic-04/slide-21.png)
 
 ## 9. Process group calls (slide 22)
 - Each group has a unique process group ID; the leader's group ID equals its own PID.

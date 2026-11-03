@@ -45,7 +45,9 @@ A socket is one end of a communication channel. Each process creates a socket an
 
 **Client/server call sequences** (slide 18):
 - Connection-oriented. Server: `socket, bind, listen, accept, read, process, write, close`. Client: `socket, connect, write, read, close`.
-- Connectionless. Server: `socket, bind`, loop of `recvfrom`, process, `sendto` (to the address `recvfrom` returned). Client: `socket`, optional `bind`, `sendto` server, `recvfrom`.
+- Connectionless. Server: `socket, bind`, loop of `recvfrom`, process, `sendto` (to the address `recvfrom` returned). Client: `socket`, `bind` (its own address, shown on slide 18; slide 11 says a client may omit it), `sendto` server, `recvfrom`.
+
+![Client/server call sequences, connection-oriented and connectionless (slide 18)](../images/topic-08/slide-18.png)
 
 ## Unix domain protocol (slides 19-20)
 - An IPC mechanism, not a network protocol: only for processes on the same computer. Its purposes here are another IPC method, practice with socket calls, and showing sockets serve multiple protocol families.
@@ -77,6 +79,10 @@ Unix **datagram** sockets. The server is **iterative** (serves one message at a 
   - 64-bit: `htobe64`, `be64toh`, `htole64`, `le64toh` (Linux/BSD, not standardised).
 - Used when filling addresses: `sin_port = htons(4000)`, `s_addr = htonl(...)`.
 
+![Little-endian and big-endian byte layout (slide 31)](../images/topic-08/slide-31.png)
+
+![Byte-order error between Motorola and Intel (slide 32)](../images/topic-08/slide-32.png)
+
 ## Example 4: ser4.c / cli4.c (slides 34-37)
 Example 2 over **TCP** (`AF_INET, SOCK_STREAM`), so server and client can be on different machines. Server IP (134.115.64.72 = 2255700040) and port 40000 are hard-coded in both. Same structure: daemon, `bind`, `listen`, `accept`, `fork` per client, `serve_a_client` loop.
 
@@ -102,6 +108,8 @@ Convert to network order before `write` and back after `read`: sender `nn = hton
 - TCP keeps two byte streams per connection (one each way) but **does not preserve message boundaries**: a single `read` may return only the part of a message that has arrived so far; later reads return the rest.
 - UDP preserves boundaries: a read returns a whole message. If the buffer is smaller (e.g. read 10 bytes), the rest of that message is lost and the next read gets the next message.
 - Same principle applies to `write`. Example 6 demonstrates the stream effect; Example 7 fixes it with `stream.h`/`stream.c` (`readn`, `writen`).
+
+![TCP byte streams between server and client (slide 53)](../images/topic-08/slide-53.png)
 
 ## Example 6: ser6.c / cli6.c (slides 55-58)
 Client sends messages of user-chosen size (10, 100, 1000, 10000 bytes...) over TCP; the server `read`s, reverses, and `write`s back, printing how many bytes each step handled. The sample run shows a 10000-byte message arriving in pieces at the server (1460, 1460, 1460, 1460, 2920, 1240 bytes), and the client's single `read` getting only 1460 bytes of the reply. So one `write` does not equal one `read`.

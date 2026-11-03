@@ -13,6 +13,14 @@ Opening a file locates it on disk, sets up the kernel structures for sharing it,
 - **V-node Table** (system-wide): exactly one entry per open file, however many times or by how many processes. Holds the file type, a pointer to the handling functions, and (for regular/directory files) the i-node copied from disk (owner, permissions, size, timestamps).
 - **Sharing (slide 7 diagram, two processes P1, P2, files A and B)**: File A is shared via two different File Table entries (each `open`, so independent offsets); File B is shared via the same File Table entry (shared offset and flags, as after `fork` or `dup`). The slide asks what the consequences of these differences are.
 
+![Per-process table of open files (slide 4)](../images/topic-05/slide-04.png)
+
+![File table (slide 5)](../images/topic-05/slide-05.png)
+
+![V-node table (slide 6)](../images/topic-05/slide-06.png)
+
+![File sharing between two processes (slide 7)](../images/topic-05/slide-07.png)
+
 ## 3. `open` and `close` (slides 8-10)
 - `int open(const char *pathname, int oflag, /* mode_t mode */)` adds an entry to the per-process table and File Table; on first open by any process it also creates the v-node entry and copies the i-node. Returns the lowest unused descriptor, or -1.
 - `oflag` is exactly one of `O_RDONLY`, `O_WRONLY`, `O_RDWR`, ORed with optional flags: `O_APPEND` (offset to end before each write), `O_CREAT` (create if missing; needs the `mode` argument), `O_EXCL` (with `O_CREAT`, error if exists), `O_TRUNC` (truncate to 0 on write open), `O_NONBLOCK` (return an error rather than wait; FIFOs and device files).
@@ -38,6 +46,10 @@ Disk I/O is done by block, so use a buffer size equal to or a multiple of the bl
 - `close(STDOUT_FILENO); dup(fd);` is equivalent to `dup2(fd, STDOUT_FILENO);`.
 - How the shell runs `ls > FOO`: (1) shell opens/creates `FOO` and gets `fd`; (2) `fork`, so the child inherits all descriptors; (3) child closes descriptor 1 and duplicates `fd` onto 1; (4) child `exec`s `ls`, whose stdout is now `FOO`.
 
+![File table before and after dup (slide 17)](../images/topic-05/slide-17.png)
+
+![How the shell redirects ls > FOO (slide 18)](../images/topic-05/slide-18.png)
+
 ## 8. `fcntl` (slides 19-21)
 `int fcntl(int fd, int cmd, /* int arg */)` changes properties of an already open file.
 - `F_DUPFD`: duplicate to the lowest available descriptor >= arg (both share one File Table entry).
@@ -48,6 +60,10 @@ Disk I/O is done by block, so use a buffer size equal to or a multiple of the bl
 - Each file has one i-node holding everything except the i-node number and the file name: type, permissions, owner/group, size, link count, device number, access/modification/i-node-change times, and data block numbers. A file is identified internally by (device, i-node number).
 - A directory is a file mapping names to i-node numbers. It contains `.` (itself) and `..` (parent) even when "empty". Example: directory `assign1` (i-node 100) holds `.`=100, `..`=140, q1=200, q2=280, q3=90.
 - Slide 24 diagram: the i-list (indexed by i-node number, each showing the link count) alongside directory contents for a sample tree (Students, M310, Peter, Ben, Richo, assign1). Example: i-node 400 (`test.c`/`hello.c`) has link count 2 as two directories list it.
+
+![Sample directory tree (slide 23)](../images/topic-05/slide-23.png)
+
+![i-list and directory contents for the sample tree (slide 24)](../images/topic-05/slide-24.png)
 
 ## 10. Types of file (slide 25)
 Characters in `ls -l`: `-` regular, `d` directory, `c` character special, `b` block special, `p` FIFO, `s` socket, `l` symbolic link. Examples shown: `crwx-w---- /dev/ttyp1`, `brw------- /dev/rz3e`, and a symlink from `ln -s m310/tut01.txt tut1.txt`.
@@ -78,6 +94,8 @@ A per-process mask that turns off permission bits on newly created files (a safe
 ## 15. File systems (slides 37-38)
 A file system is a tree of files on a disk or partition, split into equal blocks: boot block (block 0, bootstrap code), super block (block 1: size, creation time, number of i-node and data blocks), i-list (blocks 2..n, one i-node per file), then directory and data blocks. `df` lists mounted file systems and mount points; separate file systems are mounted together into a single tree. Root can mount/unmount; ordinary users may if configured (e.g. `/etc/fstab` entry).
 
+![Disk, partitions and file system layout (slide 37)](../images/topic-05/slide-37.png)
+
 ## 16. Caching in file systems (slides 39-40)
 Superblocks are cached in kernel memory and read/write data is buffered there, so the disk can be briefly inconsistent. `void sync(void)` schedules a flush of all file systems (returns before completion). `int fsync(int fd)` flushes one file and returns after completion. Shutdown flushes all buffers.
 
@@ -96,4 +114,4 @@ file descriptor; per-process open-file table; File Table; V-node Table; i-node; 
 ## Sources
 - Lecture slides ICT374Topic05, slides 1-44 (slide numbers = "Page N of 44").
 - APUE (Stevens & Rago) Ch 3 (file I/O), Ch 4 (files and directories); Stallings 12.8 (UNIX file system, i-nodes), pp. 580-584. Used only as background; slide content above is what the lecture covers.
-- Note: the slide 7, 17, 18 and 24 diagrams could not be rendered (no PDF renderer available); they are described from slide text and captions.
+- Note: the diagrams on slides 4-7, 17, 18, 23, 24, 36 and 37 were checked against rendered slide images; the table on slide 12 matches too.

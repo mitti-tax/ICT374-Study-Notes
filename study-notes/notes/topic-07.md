@@ -26,6 +26,8 @@ POSIX requires a buffer of at least 512 bytes. Most systems use more. Behaviour:
 
 `pipesync.c` (slides 8-9) uses two pipes, `AB` and `BA`, for two-way communication. A (parent) sends a message to B (child) on `AB`. B changes the case of the letters (`conv`) and returns the result on `BA`. Every end that a process doesn't use must be closed, and the writer closes its write end (L2) so B sees end-of-file. Otherwise the program hangs (deadlock) or the reader never gets 0 from `read`. Slide 10 asks what happens if L1, L2 or L3 is removed (see the questions file).
 
+![pipesync: pipes AB and BA between processes A and B (slide 8)](../images/topic-07/slide-08.png)
+
 ## 4. Non-blocking read and write (slide 11)
 Add `O_NONBLOCK` to the descriptor with `fcntl`: `fcntl(fd, F_GETFL, 0)`, OR in `O_NONBLOCK`, then `fcntl(fd, F_SETFL, val)`. Then `read` on an empty pipe, or `write` on a full pipe, returns -1 immediately with `errno == EAGAIN`.
 
@@ -51,10 +53,14 @@ Add `O_NONBLOCK` to the descriptor with `fcntl`: `fcntl(fd, F_GETFL, 0)`, OR in 
   - `type < 0`: the first message with the lowest `mtype` that is <= `|type|`.
 - Flags: `MSG_NOERROR` truncates an oversize message silently. Without it the call fails with `E2BIG` and the message stays. `MSG_NOWAIT` (the slides' name; the standard flag is `IPC_NOWAIT`) returns -1 with `ENOMSG` instead of blocking.
 
+![Message queue of typed messages (slide 17)](../images/topic-07/slide-17.png)
+
 ## 8. Client-server example with message queues (slides 20-25)
 - One server and several clients, each with a unique id (1 to `MAXTYPE`). Two queues: `up` (client to server) and `down` (server to client). The server converts the case of each message.
 - The client sets `mtype = client id` on send. It receives from `down` with `type = client id`, so each client only collects its own replies.
 - The server creates both queues with `IPC_CREAT|IPC_EXCL`, so it fails if they exist. It becomes a daemon (`daemon_init`: `fork`, parent exits, `setsid`, `chdir("/")`, `umask(0)`) and logs to a file. It receives from `up` with `type = -MAXTYPE`, so the lowest client number is served first, and with `MSG_NOERROR`. It handles `EINTR` (retry) and `EIDRM` (queue removed). It sends the result to `down`.
+
+![Client-server with up and down message queues (slide 20)](../images/topic-07/slide-20.png)
 
 ## 9. Semaphores (slides 26-29)
 - A semaphore is a shared integer counter (Dijkstra). It has two atomic operations: P/wait (`proberen`; wait until sem > 0, then decrement) and V/signal (`verhogen`; increment and wake waiters). Stallings calls them `semWait` and `semSignal`. The slide definition differs slightly from Stallings' (it wakes all waiters), but the function is similar.
@@ -80,10 +86,12 @@ System V semaphores are **arrays** of semaphores, and the operations are general
 - `wfile.c` (producer) and `rfile.c` (consumer) use a shared file `data` as the buffer, with 10 items. A third semaphore `end` lets the writer wait (`p0(end)`) until the reader finishes (`v0(end)`) before it removes all the semaphores. The non-undo versions are needed for `end`: with `SEM_UNDO` the reader's V would be undone when the reader exits (the slide asks why, see the questions file).
 
 ## 12. Shared memory (slides 40-45)
-- The kernel maps part of each process's logical address space to the same physical memory segment, so they share it. The diagram on slide 40 shows two processes (text, data, heap, shared memory, stack, environment), whose shared-memory regions both point to one physical segment.
+- The kernel maps part of each process's logical address space to the same physical memory segment, so they share it. The diagram on slide 40 shows two processes (text, data, heap, shared memory, stack, environment), whose shared-memory regions both point to one physical segment. The shared region sits at a different logical position in each process (below the heap in A, between two data areas in B), so the address in each process need not be the same.
 - `int shmget(key_t key, size_t size, int permflags)` creates or gets the object (size rounded up to whole pages).
 - `void *shmat(int shmid, void *addr, int flags)` attaches it and returns its address. `addr == NULL` lets the kernel choose the address (preferred). `SHM_RDONLY` makes it read-only. `SHM_RND` rounds `addr` down/up to a page boundary (the slide says rounded up). `shmdt` detaches it. `shmctl` does miscellaneous operations (query, change info, `IPC_RMID` removal, lock/unlock).
 - Shared memory has no built-in synchronisation, so the writer `wshm.c` and reader `rshm.c` use `empty`/`full` semaphores plus a `reader_end` semaphore, as in the file example but much faster. `wshm` writes ten random numbers into a shared `int`. After the reader's `v0(reader_end)` the writer removes the shared memory (`shmctl(..., IPC_RMID, NULL)`) and the semaphores. Again `v0` is used, because with `SEM_UNDO` the V would be nullified when the reader exits, and the writer would wait forever.
+
+![Shared memory mapped into two processes (slide 40)](../images/topic-07/slide-40.png)
 
 ## Key terms
 - **Pipe / unnamed pipe**: kernel FIFO buffer between related processes (`pipe`).
@@ -105,4 +113,4 @@ System V semaphores are **arrays** of semaphores, and the operations are general
 ## Sources
 - Lecture slides: ICT374 Topic 07 (45 slides). Pipes 3-11, FIFOs 12-13, System V IPC 14-16, message queues 17-19, client-server 20-25, semaphores 26-29, semaphore interface 30-35, producer-consumer 36-39, shared memory 40-45.
 - Textbook: APUE (Stevens and Rago) Ch 15, pp. 533-579 (the topic reading). Stallings Ch 5.3-5.7, pp. 244-269 (semaphores, message passing, producer/consumer). The notes follow the slides and use no extra textbook material.
-- Note: the slide diagrams (pp. 3, 8, 40) could not be rendered, because `pdftoppm` is unavailable. They were taken from the extracted text.
+- Note: the diagrams on slides 8, 17, 20, 37 and 40 were checked against rendered slide images.

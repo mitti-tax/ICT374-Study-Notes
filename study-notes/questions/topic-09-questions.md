@@ -40,6 +40,9 @@ Source: Stallings Ch 7, Problem 7.8, p. 361
 2. Maintain an absolute address in the instruction register. When a successful branch or call is encountered, dynamic address translation is employed, with the results stored in the instruction register.
 
 Which approach is preferable?
+
+![Fig 7.8 Hardware support for relocation (slide 16)](../images/topic-09/slide-16.png)
+
 Source: Stallings Ch 7, Problem 7.11, p. 362 (refers to Figure 7.8, shown on slide 16)
 
 ### Q12. Consider a memory-management system based on paging. The total size of the physical memory is 2 GB, laid out over pages of size 8 KB. The logical address space of each process has been limited to 256 MB.
@@ -129,6 +132,9 @@ Source: Stallings Ch 8, Problem 8.2, p. 422
 
 ### Q24. a. How much memory space is needed for the user page table of Figure 8.3?
 b. Assume you want to implement a hashed inverted page table for the same addressing scheme as depicted in Figure 8.3, using a hash function that maps the 24-bit page number into an 8-bit hash value. The table entry contains the page number, the frame number, and a chain pointer. If the page table allocates space for up to 4 overflow entries per hashed entry, how much memory space does the hashed inverted page table take?
+
+![Fig 8.3 Address translation in a paging system (slide 37)](../images/topic-09/slide-37.png)
+
 Source: Stallings Ch 8, Problem 8.3, p. 422 (Figure 8.3 is on slide 37)
 
 ### Q25. Consider the following page-reference string: a, b, d, c, b, e, d, b, d, b, a, c, b, c, a, c, f, a, f, d. Assume that there are 3 frames available and that they are all initially empty. Complete a figure, similar to Figure 8.14, showing the frame allocation for each of the following page replacement policies:
@@ -136,6 +142,9 @@ a. First-in-first-out
 b. Optimal
 c. Least recently used
 Then, find the relative performance of each policy with respect to page faults.
+
+![Fig 8.15 Behavior of four page-replacement algorithms (slide 69)](../images/topic-09/slide-69.png)
+
 Source: Stallings Ch 8, Problem 8.4, p. 422 (the model figure is the page-replacement behaviour figure shown on slide 69)
 
 ### Q26. A process references five pages, A, B, C, D, and E, in the following order:
